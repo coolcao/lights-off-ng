@@ -11,8 +11,8 @@ import { timer } from 'rxjs';
 })
 export class LightsOffBoardComponent implements OnInit {
   private store = inject(LightsOffStore);
-  private size = 3;
 
+  size = 5;
   steps = 0;
 
   board = this.store.board;
@@ -60,6 +60,9 @@ export class LightsOffBoardComponent implements OnInit {
   restart() {
     this.store.init(this.size);
     this.steps = 0;
+  }
+  changeSize() {
+    this.store.init(this.size);
   }
 
 }

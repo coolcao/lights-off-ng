@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { LightsOffRoutingModule } from './lights-off-routing.module';
 import { LightsOffBoardComponent } from './lights-off-board/lights-off-board.component';
@@ -12,7 +13,8 @@ import { LightsOffStore } from './lights-off-store';
   ],
   imports: [
     CommonModule,
-    LightsOffRoutingModule
+    LightsOffRoutingModule,
+    FormsModule,
   ],
   providers: [
     LightsOffStore
