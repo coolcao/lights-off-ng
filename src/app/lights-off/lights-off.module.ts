@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { LightsOffRoutingModule } from './lights-off-routing.module';
 import { LightsOffBoardComponent } from './lights-off-board/lights-off-board.component';
 import { LightsOffStore } from './lights-off-store';
+import { ScatterFlowersComponent } from './scatter-flowers/scatter-flowers.component';
 
 
 @NgModule({
   declarations: [
-    LightsOffBoardComponent
+    LightsOffBoardComponent,
+    ScatterFlowersComponent,
   ],
   imports: [
     CommonModule,

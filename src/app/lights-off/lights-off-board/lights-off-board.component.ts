@@ -12,7 +12,7 @@ import { timer } from 'rxjs';
 export class LightsOffBoardComponent implements OnInit {
   private store = inject(LightsOffStore);
 
-  size = 5;
+  size = 3;
   steps = 0;
 
   board = this.store.board;
@@ -23,11 +23,10 @@ export class LightsOffBoardComponent implements OnInit {
   constructor() {
     effect(() => {
       if (this.finished()) {
-        timer(700).subscribe(() => {
-          this.showModal = true;
+        this.showModal = true;
+        timer(3000).subscribe(() => {
+          this.showModal = false;
         })
-      } else {
-        this.showModal = false;
       }
     });
   }
