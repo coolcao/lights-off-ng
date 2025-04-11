@@ -36,6 +36,10 @@ export class LightsOffBoardComponent implements OnInit {
   }
 
   toggleLight(row: number, col: number) {
+    if (this.finished()) {
+      console.log('游戏结束');
+      return;
+    }
     this.steps += 1;
     const board = this.board();
     // 当前格子

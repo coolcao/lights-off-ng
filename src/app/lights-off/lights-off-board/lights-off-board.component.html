@@ -1,85 +1,127 @@
 <div
-  class="flex h-screen w-screen flex-col items-center justify-center bg-gray-200 dark:bg-gray-800"
+  class="flex h-screen w-screen flex-col items-center justify-center bg-[#f0f7ff] p-4 dark:bg-[#1a365d]"
 >
-  <div class="text-5xl text-gray-600 dark:text-gray-200">关灯游戏</div>
-  <div
-    class="mt-5 flex flex-col items-center justify-center rounded-md text-xl"
+  <h1
+    class="animate-fade-in mb-4 text-3xl font-bold text-[#2A4E6E] md:mb-8 md:text-5xl dark:text-[#87CEEB]"
   >
-    <div
-      class="rounded-md bg-green-200 p-5 text-gray-800 dark:bg-green-800 dark:text-gray-200"
-    >
-      <div>1️⃣ 点击格子，开启/关闭💡</div>
-      <div>2️⃣ 点击格子时，相邻格子的灯也会一起切换</div>
-      <div>3️⃣ 目标是用最少的步数关闭棋盘上所有的💡</div>
+    关灯游戏
+  </h1>
+
+  <div class="mb-6 w-full max-w-2xl transition-transform duration-300 md:mb-10">
+    <div class="rounded-xl bg-[#87CEEB] p-4 shadow-xl md:p-6 dark:bg-[#2A4E6E]">
+      <div
+        class="space-y-3 text-sm text-[#2A4E6E] md:text-base dark:text-[#f0f7ff]"
+      >
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">💡</span>
+          <span>点击格子切换灯光状态</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🔄</span>
+          <span>相邻格子会同时切换状态</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🎯</span>
+          <span>目标：用最少步数关闭所有灯光</span>
+        </div>
+      </div>
     </div>
   </div>
+
   <div
-    class="mt-5 flex h-fit w-fit flex-col items-center justify-center rounded-lg border-2 border-solid border-gray-400 p-32"
+    class="w-full max-w-4xl rounded-2xl bg-white p-4 shadow-2xl transition-all duration-300 md:p-8 dark:bg-[#2A4E6E]"
   >
     <div
-      class="mb-20 flex w-full items-center justify-center text-gray-600 dark:text-gray-300"
+      class="mb-6 flex flex-col items-center justify-between md:mb-10 md:flex-row"
     >
-      <span class="text-xl">棋盘尺寸：</span>
-      <select
-        [(ngModel)]="size"
-        (change)="changeSize()"
-        class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-20 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-      >
-        <option [ngValue]="3">3*3</option>
-        <option [ngValue]="5">5*5</option>
-        <option [ngValue]="7">7*7</option>
-      </select>
-    </div>
-    @for (cs of board(); track $index; let row = $index) {
-      <div class="flex w-full items-center justify-center">
-        @for (c of cs; track $index; let col = $index) {
-          <div
-            class="m-1 transform cursor-pointer select-none border-2 border-solid border-white shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl"
-            [ngClass]="{
-              'bg-gray-600 dark:bg-gray-500': c == 0,
-              'bg-yellow-400 dark:bg-orange-400': c == 1,
-              'h-28 w-28': size == 3,
-              'h-20 w-20': size == 5,
-              'h-16 w-16': size == 7,
-            }"
-            (click)="toggleLight(row, col)"
-          >
-            <span
-              *ngIf="c == 1"
-              class="flex h-full w-full items-center justify-center text-5xl"
-              >💡</span
-            >
-          </div>
-        }
+      <div class="mb-4 flex items-center gap-3 md:mb-0">
+        <span class="text-lg text-[#2A4E6E] md:text-xl dark:text-[#87CEEB]"
+          >棋盘尺寸：</span
+        >
+        <select
+          [(ngModel)]="size"
+          (change)="changeSize()"
+          class="rounded-lg border-2 border-[#87CEEB] bg-[#87CEEB]/20 px-4 py-2 text-[#2A4E6E] focus:outline-none focus:ring-2 focus:ring-[#87CEEB] dark:bg-[#87CEEB]/10 dark:text-[#87CEEB]"
+        >
+          <option [ngValue]="3">3×3</option>
+          <option [ngValue]="5">5×5</option>
+          <option [ngValue]="7">7×7</option>
+        </select>
       </div>
-    }
-    <div
-      class="mt-5 flex items-center justify-center text-xl text-gray-800 dark:text-gray-200"
-    >
-      已操作步数： {{ steps }}
+      <div class="flex gap-4 text-[#2A4E6E] md:gap-6 dark:text-[#87CEEB]">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">👣</span>
+          <span class="text-sm md:text-base">{{ steps }} 步</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xl">💡</span>
+          <span class="text-sm md:text-base">{{ count() }}</span>
+        </div>
+      </div>
     </div>
+
     <div
-      class="my-5 flex items-center justify-center text-xl text-gray-800 dark:text-gray-200"
+      class="mb-8 flex flex-col items-center justify-center space-y-3 md:space-y-4"
     >
-      @if (finished()) {
-        恭喜你，你已经成功关闭了所有的💡！
-      } @else {
-        当前还需要关闭的💡： {{ count() }}
+      @for (cs of board(); track $index; let row = $index) {
+        <div class="flex space-x-3 md:space-x-4">
+          @for (c of cs; track $index; let col = $index) {
+            <div
+              (click)="toggleLight(row, col)"
+              class="relative cursor-pointer rounded-xl transition-all duration-300 hover:scale-105"
+              [ngClass]="{
+                'bg-[#87CEEB] shadow-[0_0_30px_-5px_#87CEEB]': c == 1,
+                'bg-[#f0f7ff] shadow-md dark:bg-[#1a365d]': c == 0,
+                'h-20 w-20': size === 3,
+                'h-16 w-16': size === 5,
+                'h-12 w-12': size === 7,
+              }"
+            >
+              <div
+                class="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
+                [ngClass]="{
+                  'opacity-0': c == 0,
+                  'opacity-100 drop-shadow-[0_0_15px_#fff]': c == 1,
+                }"
+              >
+                <span class="animate-pulse text-5xl">💡</span>
+              </div>
+            </div>
+          }
+        </div>
       }
     </div>
-    <div
-      class="my-5 flex items-center justify-center text-xl text-gray-800 dark:text-gray-200"
-    >
+
+    <div class="flex flex-col items-center space-y-4">
+      @if (finished()) {
+        <div
+          class="animate-bounce text-lg font-semibold text-emerald-600 md:text-xl dark:text-emerald-400"
+        >
+          🎉 恭喜完成游戏🎉 共操作 {{ steps }} 步
+        </div>
+      }
       <button
         (click)="restart()"
-        class="rounded-md border border-solid bg-blue-400 p-2 text-gray-800 hover:bg-blue-500 dark:bg-blue-600 dark:text-gray-300 hover:dark:bg-blue-500"
+        class="flex items-center gap-2 rounded-full bg-[#87CEEB] px-8 py-3 text-lg font-semibold text-[#2A4E6E] transition-all duration-300 hover:bg-[#6cb4d1] hover:shadow-lg dark:bg-[#2A4E6E] dark:text-[#87CEEB] hover:dark:bg-[#3c5b7d]"
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+            clip-rule="evenodd"
+          />
+        </svg>
         重新开始
       </button>
     </div>
   </div>
-</div>
 
-@if (showModal) {
-  <app-scatter-flowers></app-scatter-flowers>
-}
+  @if (showModal) {
+    <app-scatter-flowers></app-scatter-flowers>
+  }
+</div>
